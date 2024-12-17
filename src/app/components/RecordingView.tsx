@@ -1,6 +1,4 @@
 'use client'
-import { list } from "postcss";
-import { List } from "postcss/lib/list";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
 
@@ -20,8 +18,8 @@ export default function RecordingView() {
 
     // Audio file management
     const [audioURL, setAudioURL] = useState<any>(null); //the recorded piece
-    let audioChunksRef = useRef<any>([]);
-    let mediaRecorderRef = useRef<MediaRecorder>(null);
+    const audioChunksRef = useRef<any>([]);
+    const mediaRecorderRef = useRef<MediaRecorder>(null);
 
     const startRecording = async () => {
         //Audio file record

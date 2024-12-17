@@ -1,4 +1,3 @@
-import Image from "next/image";
 import RecordingView from "./components/RecordingView";
 
 export default function Home() {
