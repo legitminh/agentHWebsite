@@ -1,10 +1,19 @@
 import RecordingView from "./components/RecordingView";
-
+// import { RecordingProvider } from "./components/Atoms";
+import RecoilRootWrap from "./components/RecoilRootWrap";
+import ThemeWrapper from "./components/ThemeWrapper";
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col items-center bg-gray-100">
-      <RecordingView/>
+    // <RecordingProvider>
+    <RecoilRootWrap>
+    {/* <ThemeWrapper> */}
 
-    </div>
+      <div className="flex min-h-screen flex-col items-center bg-gray-100">
+        <RecordingView/>
+
+      </div>
+      {/* </ThemeWrapper> */}
+    </RecoilRootWrap>
+    // </RecordingProvider>
   );
 }

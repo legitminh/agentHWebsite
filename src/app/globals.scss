@@ -1,0 +1,85 @@
+/*
+ColorNomenclature
+    {Hue};{id}
+
+Color translation system of light and dark:
+Each color have: 
+[0] hue
+    I decided to use English for hue
+[1] relative lightness as fraction of the page's lightness, there are 256 levels (0-255), 
+    I decide to divide the levels into 4 sublevels (marked by their lowest level), their labels are in hex:
+        0x
+        4x
+        8x
+        cx
+    Note: level 80 is directly in the middle, while 8x have proximity to the page color
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../../public/Roboto-Medium.ttf') format('truetype'); /* Regular font */
+    font-weight: normal;
+    font-style: normal;
+}
+* {
+    font-family: 'Roboto', serif;
+}
+.light, div.light > * { //if the user manually override to light theme
+    //mono
+    --color-0: #000000;
+    --color-40: #424546;
+    --color-80: #7d7d7d;
+    --color-c0: #e1e1e1;
+    --color-ff: #ffffff;
+
+    &::-webkit-scrollbar {
+        width: 50px; // Width of the scrollbar
+    }
+
+    // Scrollbar thumb
+    &::-webkit-scrollbar-thumb {
+        background: var(--color-4); // Use your desired color variable
+    }
+
+    // Scrollbar track
+    &::-webkit-scrollbar-track {
+        background: var(--color-8); // Use your desired color variable
+    }
+
+}
+// ::-webkit-scrollbar {
+//     width: 50px; // Width of the scrollbar
+// }
+.dark, div.dark > * { //if the user manually override to dark theme
+    //mono
+    --color-0: #fffdfd;
+    --color-40: #bfd5df;
+    --color-80: #787881;
+    --color-c0: #353437;
+    --color-ff: #000000;
+
+    &::-webkit-scrollbar {
+        width: 10px; // Width of the scrollbar
+    }
+
+    // Scrollbar thumb
+    &::-webkit-scrollbar-thumb {
+        background: var(--color-4); // Use your desired color variable
+    }
+
+    // Scrollbar track
+    &::-webkit-scrollbar-track {
+        background: var(--color-8); // Use your desired color variable
+    }
+}
+
+@layer base{
+    
+}
+// div {
+//     @apply black;
+// }
+

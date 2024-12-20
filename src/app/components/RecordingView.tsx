@@ -1,7 +1,8 @@
 'use client'
 import { useEffect, useState } from "react";
 import { useRef } from "react";
-
+import { useRecoilState, useRecoilValue} from "recoil";
+import {themeState } from './ThemeState'; // Import the atoms
 
 declare global{
     interface Window{
@@ -11,8 +12,10 @@ declare global{
 
 
 export default function RecordingView() {
+    // console.log(themeState[default]);
+    // const [theme, setTheme] = useRecoilState(themeState);
+
     const [isRecording, setIsRecording] = useState<boolean>(false);
-    // const [recordingComplete, setRecordingComplete] = useState<boolean>(false);
     const [transcript, setTranscript] = useState<string>("");
     const recognitionRef = useRef<any>(null);
 
@@ -53,10 +56,17 @@ export default function RecordingView() {
         recognitionRef.current.continuous= true;
         recognitionRef.current.interimResults = true;
         recognitionRef.current.onresult = (event:any) => {
-            const {transcript} = event.results[event.results.length -1][0];
-            setTranscript(transcript);
-            console.log(transcript);
-
+            // const {transcript} = event.results[event.results.length -1][0];
+            // setTranscript(transcript);
+            // console.log(transcript);
+            let curTranscript = '';
+            for (let i = 0; i < event.results.length; i++) {
+                const result = event.results[i];
+                if (result.isFinal) {
+                    curTranscript += result[0].transcript + ' ';
+                }
+            }
+            setTranscript(curTranscript.trim() + ' ');
         }
         recognitionRef.current.onerror = (event: any) => {
             console.error("Speech recognition error:", event.error);
@@ -85,7 +95,7 @@ export default function RecordingView() {
         setIsRecording(false);
     }
     const handleToggleRecording = ()=> {
-        // setIsRecording(!isRecording);
+        setIsRecording(!isRecording);
         if (!isRecording){
             startRecording();
         } else{
@@ -93,47 +103,48 @@ export default function RecordingView() {
         }
     }
     return (
-        <div className = "flex items-center justify-center h-screen w-full">
-            {/* Transcript Section */}
-            <div className="w-full">
-                {(isRecording || transcript) && (
-                    <div className="w-1/4 m-auto rounded-md border p-4 bg-white">
-                        <div className=" flex-1 flex w-full justify-between">
-                            <div className="space-y-1">
-                                <p className="text-sm font-medium leading-none">
-                                    {isRecording? "Recording" : "Recorded"}
-                                </p>
-                                <p className="text-sm">
-                                    {isRecording? "Start speaking...": "Yay" }
-                                </p>
-                            </div>
-
-                        </div>
-                    {isRecording && (
-                        <div className="rounded-full w-4 h-4 bg-red-400 animate-pulse"/>
-                    )}
-                    </div>
-                    
-                )}
+        <div className = "relative h-screen w-full">
+            {/* Right bar */}
+            <div className=" absolute h-full right-0 w-[25%] bg-slate-200">
+                {/* User instructions / feedback */}
+                <div className=" relative w-full p-2 h-[6.25%] bg-white">
                 
-                {transcript && (
-                    <div className=" border rounded-md p-2 mt-4">
-                        <p className="mb-0">{transcript}</p>
-                    </div>
+                <div className="">
+                    <p className="text-sm font-medium">
+                        {isRecording? "Recording..." : "Paused"}
+                    </p>
+                </div>  
+
+                {isRecording && (
+                    <div className=" absolute right-0 top-0 rounded-full w-[6.25%] aspect-square m-[3.125%] bg-red-400 animate-pulse"/>
                 )}
-                <audio src={audioURL} controls />
-                {/* Button Section */}
-                <div className="flex items-center w-full">
-                    {isRecording ? (
-                        <button onClick={handleToggleRecording} className=" rounded-full w-20 h-20 mt-10 m-auto flex flex-center items-center justify-center bg-red-400 hover:bg-red-800">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 20 20"><path fill="white" d="M6.75 3a2 2 0 0 0-2 2v10a2 2 0 1 0 4 0V5a2 2 0 0 0-2-2Zm6.5 0a2 2 0 0 0-2 2v10a2 2 0 1 0 4 0V5a2 2 0 0 0-2-2Z" /></svg>
-                            
-                        </button>
-                    ) : (<button onClick={handleToggleRecording} className=" rounded-full w-20 h-20 mt-10 m-auto flex flex-center items-center justify-center bg-blue-400 hover:bg-blue-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 56 56"><path fill="white" d="M36.543 26.852V12.109c0-5.414-3.492-9.187-8.531-9.187c-5.04 0-8.532 3.773-8.532 9.187v14.743c0 5.39 3.493 9.187 8.532 9.187s8.53-3.797 8.53-9.187m-3.54 0c0 3.468-1.991 5.695-4.991 5.695c-3 0-4.992-2.227-4.992-5.695V12.109c0-3.468 1.992-5.695 4.992-5.695s4.992 2.227 4.992 5.695ZM17.536 49.539a1.76 1.76 0 0 0-1.758 1.781a1.74 1.74 0 0 0 1.758 1.758h20.953a1.74 1.74 0 0 0 1.758-1.758a1.76 1.76 0 0 0-1.758-1.78H29.77v-5.462c8.953-.75 15-7.172 15-16.383v-4.757a1.74 1.74 0 0 0-1.758-1.758a1.76 1.76 0 0 0-1.782 1.758v4.617c0 7.992-5.203 13.289-13.218 13.289c-8.016 0-13.242-5.297-13.242-13.29v-4.616a1.74 1.74 0 0 0-1.758-1.758a1.76 1.76 0 0 0-1.782 1.758v4.757c0 9.211 6.07 15.633 15 16.383v5.461Z"/></svg>
-                    </button>)
-                }
                 </div>
+            </div> 
+            {/* Transcript */}
+            {transcript && (
+                // Outside shell
+                <div className=" absolute bottom-[12.5%] left-[12.5%] w-[62.5%] h-[6.25%] p-2 overflow-hidden">
+                    {/* Inner text zone */}
+                    <div className=" relative h-full w-full">
+                        <div className=" absolute bottom-0">{transcript}</div>
+                    </div>
+                </div>
+            )}
+
+
+            {/* Audio file */}
+            <audio className=" absolute bottom-0 left-[12.5%] w-[62.5%] h-[6.25%]" src={audioURL} controls />
+            {/* Button Section */}
+            <div className=" absolute left-0 bottom-0 w-[12.5%] h-[12.5%]">
+                {isRecording ? (
+                    <button onClick={handleToggleRecording} className=" w-full h-full m-auto flex flex-center items-center justify-center bg-red-400 hover:bg-red-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 20 20"><path fill="white" d="M6.75 3a2 2 0 0 0-2 2v10a2 2 0 1 0 4 0V5a2 2 0 0 0-2-2Zm6.5 0a2 2 0 0 0-2 2v10a2 2 0 1 0 4 0V5a2 2 0 0 0-2-2Z" /></svg>
+                        
+                    </button>
+                ) : (<button onClick={handleToggleRecording} className=" w-full h-full m-auto flex flex-center items-center justify-center bg-blue-400 hover:bg-blue-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 56 56"><path fill="white" d="M36.543 26.852V12.109c0-5.414-3.492-9.187-8.531-9.187c-5.04 0-8.532 3.773-8.532 9.187v14.743c0 5.39 3.493 9.187 8.532 9.187s8.53-3.797 8.53-9.187m-3.54 0c0 3.468-1.991 5.695-4.991 5.695c-3 0-4.992-2.227-4.992-5.695V12.109c0-3.468 1.992-5.695 4.992-5.695s4.992 2.227 4.992 5.695ZM17.536 49.539a1.76 1.76 0 0 0-1.758 1.781a1.74 1.74 0 0 0 1.758 1.758h20.953a1.74 1.74 0 0 0 1.758-1.758a1.76 1.76 0 0 0-1.758-1.78H29.77v-5.462c8.953-.75 15-7.172 15-16.383v-4.757a1.74 1.74 0 0 0-1.758-1.758a1.76 1.76 0 0 0-1.782 1.758v4.617c0 7.992-5.203 13.289-13.218 13.289c-8.016 0-13.242-5.297-13.242-13.29v-4.616a1.74 1.74 0 0 0-1.758-1.758a1.76 1.76 0 0 0-1.782 1.758v4.757c0 9.211 6.07 15.633 15 16.383v5.461Z"/></svg>
+                </button>)
+            }
             </div>
 
         </div>
