@@ -1,19 +1,21 @@
+'use client'
 import RecordingView from "./components/RecordingView";
 // import { RecordingProvider } from "./components/Atoms";
 import RecoilRootWrap from "./components/RecoilRootWrap";
 import ThemeWrapper from "./components/ThemeWrapper";
+import ToggleTheme from "./components/ToggleTheme";
 export default function Home() {
   return (
-    // <RecordingProvider>
-    <RecoilRootWrap>
-    {/* <ThemeWrapper> */}
+    <ThemeWrapper>
+    <div className="flex min-h-screen flex-col items-center bg-transparent">
+      <RecordingView/>
 
-      <div className="flex min-h-screen flex-col items-center bg-gray-100">
-        <RecordingView/>
+    </div>
+    <div  className = "absolute top-10 left-10">
+      <ToggleTheme></ToggleTheme>
 
-      </div>
-      {/* </ThemeWrapper> */}
-    </RecoilRootWrap>
-    // </RecordingProvider>
+    </div>
+    </ThemeWrapper>
+    
   );
 }

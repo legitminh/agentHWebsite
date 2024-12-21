@@ -10,21 +10,21 @@ export default {
     extend: {
       colors: {
         //mono
-        c0: "var(--color-0)",  
-        c4: "var(--color-4)",  
-        c8: "var(--color-8)",  
-        cc: "var(--color-c)",  
-        c10: "var(--color-10)", 
+        c00: "var(--color-00)",  
+        c40: "var(--color-40)",  
+        c80: "var(--color-80)",  
+        cc0: "var(--color-c0)",  
+        cff: "var(--color-ff)", 
+        cgolda0: "var(--color-golda0)", 
+        cgoldc0: "var(--color-goldc0)", 
+        cblue80: "var(--color-blue80)", 
+        cblue40: "var(--color-blue40)",
+        cbluec0: "var(--color-bluec0)",
+        cred80: "var(--color-red80)", 
+        cred40: "var(--color-red40)",
+        credc0: "var(--color-redc0)",
 
-        //blue
-        c4Blue: "var(--color-4Blue)", 
-        c8Blue: "var(--color-8Blue)", 
-        ccBlue: "var(--color-cBlue)",
 
-        //clear
-        c4Clear: "var(--color-4Clear)", 
-        c8Clear: "var(--color-8Clear)", 
-        ccClear: "var(--color-cClear)"
       },
     },
   },

@@ -1,6 +1,6 @@
 /*
-ColorNomenclature
-    {Hue};{id}
+ColorNomenclature when access using tailwind, by default, only intensity
+    c{HueName}s{saturation}i{intensity}
 
 Color translation system of light and dark:
 Each color have: 
@@ -27,13 +27,25 @@ Each color have:
 * {
     font-family: 'Roboto', serif;
 }
-.light, div.light > * { //if the user manually override to light theme
-    //mono
-    --color-0: #000000;
-    --color-40: #424546;
-    --color-80: #7d7d7d;
-    --color-c0: #e1e1e1;
+.light, div.light > * {
+    --color-00: #000000;
+    --color-40: #2d2f34;
+    --color-80: #787882;
+    --color-c0: #e2e8f0;
     --color-ff: #ffffff;
+
+    --color-golda0: #ac9521;
+    --color-goldc0: #c6af27;
+
+    --color-blue80: #243d83;
+    --color-blue40: #1f1f53;
+    --color-bluec0: #4d61c6;
+
+
+    --color-red80: #803434;
+    --color-red40: #411818;
+    --color-redc0: #c84747;
+
 
     &::-webkit-scrollbar {
         width: 50px; // Width of the scrollbar
@@ -53,13 +65,25 @@ Each color have:
 // ::-webkit-scrollbar {
 //     width: 50px; // Width of the scrollbar
 // }
-.dark, div.dark > * { //if the user manually override to dark theme
-    //mono
-    --color-0: #fffdfd;
-    --color-40: #bfd5df;
-    --color-80: #787881;
-    --color-c0: #353437;
+.dark, div.dark > * { 
+    --color-00: #ffffff;
+    --color-40: #e2e8f0;
+    --color-80: #787882;
+    --color-c0: #2d2f34;
     --color-ff: #000000;
+
+    --color-golda0: #685a1a;
+    --color-goldc0: #494114;
+
+    --color-blue40: #2641c4;
+    --color-blue80: #1b3783;
+    --color-bluec0: #0f1e48;
+
+    --color-red40: #c82323;
+    --color-red80: #881b1b;
+    --color-redc0: #470e0e;
+
+
 
     &::-webkit-scrollbar {
         width: 10px; // Width of the scrollbar
